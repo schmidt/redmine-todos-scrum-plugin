@@ -1,0 +1,4 @@
+<% raise unless @todo %>
+
+jQuery('#todo<%= @todo.parent_id %>-new-box').html('<%= escape_javascript(render(:partial => 'new_todo', :locals => { :todo => @todo})) %>');
+

@@ -26,7 +26,6 @@ class MytodosController < TodosController
     #this line is so beautiful it nearly made me cry!
     @grouped_project_todos = Set.new(@project_todos).classify{|t| t.todoable } 
     
-    
     @new_todo = @user.todos.new(:author_id => @user.id)
   end
   

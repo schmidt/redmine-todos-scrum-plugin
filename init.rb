@@ -3,31 +3,21 @@ require 'redmine'
 # Hooks
 require_dependency 'todo_issues_hook'
 
-# Patches to the Redmine core
-require 'dispatcher'
+Rails.configuration.to_prepare do
+	require_dependency 'project'
+	require_dependency 'user'
 
-Dispatcher.to_prepare do
-  require_dependency 'project'
-  require_dependency 'user'
+	#application.rb changed names between rails verisons - hack for backwards compatibility
+	begin
+		require_dependency 'application_controller'
+	rescue MissingSourceFile
+		require_dependency 'application'
+	end
 
-  #application.rb changed names between rails verisons - hack for backwards compatibility
-  begin
-    require_dependency 'application_controller'
-  rescue MissingSourceFile
-    require_dependency 'application'
-  end
-
-  #This file loads some associations into the core redmine classes, like associations to todos.
-    require 'patch_redmine_classes'
-  require 'todo_issues_controller_patch'
-
-  # Add module to Project.
-  Project.send(:include, TodosProjectPatch)
-
-  # Add module to User, once.
-  User.send(:include, TodosUserPatch)
-
-  IssuesController.send(:include, TodoIssuesControllerPatch)
+	#This file loads some associations into the core redmine classes, like associations to todos.
+	require_dependency 'patches/project_patch'
+	require_dependency 'patches/user_patch'
+	require_dependency 'patches/issues_controller_patch'
 end
 
 Redmine::Plugin.register :redmine_todos_plugin do
@@ -68,10 +58,11 @@ end
 
 #fix required to make the plugin work in devel mode with rails 2.2
 # as per http://www.ruby-forum.com/topic/171629
-load_paths.each do |path|
-  ActiveSupport::Dependencies.load_once_paths.delete(path)
-end
+#config.auto_load_paths.each do |path|
+#	ActiveSupport::Dependencies.load_once_paths.delete(path)
+#end
 
-
-
-
+# now we should include this module in ApplicationHelper module
+#unless ApplicationHelper.included_modules.include? BoardsWatchers::Patches::ApplicationHelperPatch
+#    ApplicationHelper.send(:include, BoardsWatchers::Patches::ApplicationHelperPatch)
+#end

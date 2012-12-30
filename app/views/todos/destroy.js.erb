@@ -1,0 +1,11 @@
+<%
+	raise unless @todo
+
+	li_id = TodosController::TODO_LI_ID + @todo.id.to_s
+%>
+
+<% if !@todo.errors.empty? %>
+	alert('<% escape_javascript(@todo.errors.collect{|k,m| m}.join) %>');
+<% else %>
+	jQuery('#<%= li_id %>').remove();
+<% end %>

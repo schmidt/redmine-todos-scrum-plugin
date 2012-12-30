@@ -1,0 +1,7 @@
+<%
+raise unless @todo.todoable
+
+ul_id = TodosController::TODO_LI_ID + @todo.id.to_s
+%>
+
+jQuery('#<%= ul_id %>').html('<%= escape_javascript(render(:partial => "todos/inline_edit", :locals => {:todo => @todo})) %>');

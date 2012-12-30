@@ -1,6 +1,8 @@
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'todos', :plugin => 'redmine_todos_plugin' %>
     <%= stylesheet_link_tag 'todos_print', :plugin => 'redmine_todos_plugin', :media => 'print' %>
+	<%= javascript_include_tag 'jquery.mjs.nestedSortable.js', :plugin => 'redmine_todos_plugin' %>
+	<%= javascript_include_tag 'todos', :plugin => 'redmine_todos_plugin' %>
 <% end %>
 
 <div id=project-todos>

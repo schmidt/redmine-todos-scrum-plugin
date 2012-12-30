@@ -1,7 +1,4 @@
 /* print-specific CSS sheet for printing todos */
-
-
-
 #top-menu { display: none; }
 #header {display:none; }
 div.new-todo { display: none; }
@@ -10,42 +7,36 @@ div.new-todo { display: none; }
 
 a {text-decoration: none; }
 
-/* now include all the stuff from todos.css... 
-   I should use an @import but i couldnt get the paths to work with 
+/* now include all the stuff from todos.css...
+   I should use an @import but i couldnt get the paths to work with
    @import "todos.css"
 ****************************************************************/
 
-
-
 /* css for the project todos screen */
-#project-todos ul {
+.project-todos-container ul {
 	/*list-style-image: url(/images/sub.gif); */
 		list-style-type: none;
 
 }
-#project-todos ul.root {
+.project-todos-container ul.root {
 	list-style-image: none;
 	list-style-type: none;
-	
+
 }
-#project-todos ul.root li { font-size: 1.1em; padding-bottom: 0.6em; }
-#project-todos ul.root ul.children { padding-bottom: 0px; padding-top: 0.5em;}
-#project-todos ul.root ul.children li { font-size: 0.9em; padding-bottom: 0em; padding-top: 0.0em;}
-/*#project-todos div.children { padding-bottom: 10px;}*/
+.project-todos-container ul.root li { font-size: 1.1em; padding-bottom: 0.6em; }
+.project-todos-container ul.root ul.children { padding-bottom: 0px; padding-top: 0.5em;}
+.project-todos-container ul.root ul.children li { font-size: 0.9em; padding-bottom: 0em; padding-top: 0.0em;}
+/*.project-todos-container div.children { padding-bottom: 10px;}*/
 
 span.todo-has-children-true {}
 
-/* #project-todos ul.depth0 { background-color: #cecece;} */
+/* .project-todos-container ul.depth0 { background-color: #cecece;} */
 
-
-
-#project-todos li {
-	text-align: middle;
+.project-todos-container li {
+	text-align: left;
 	vertical-align: middle;
-	margin: 0 0 0 0;
+	margin: 0;
 }
-
-
 .todo-controls {
 	margin-left: 0px;
 	text-decoration: none;
@@ -78,14 +69,14 @@ span.todo-has-children-true {}
 div#issue-todos .todo { padding: 4px;}
 div#issue-todos .todo { border-bottom: 1px solid #ddd; }
 div#issue-todos p { margin-top: 0; margin-bottom: 1em;}
-div#issue-todos #project-todos ul.root { padding-left: 0px;}
-div#issue-todos #project-todos span.notes { color: #888888; font-size: 0.8em; font-style: normal;}
-div#issue-todos #project-todos span.notes span.refers { display: none;}
+div#issue-todos .project-todos-container ul.root { padding-left: 0px;}
+div#issue-todos .project-todos-container span.notes { color: #888888; font-size: 0.8em; font-style: normal;}
+div#issue-todos .project-todos-container span.notes span.refers { display: none;}
 
-#project-todos li .todo-content p{ display: inline;}
+.project-todos-container li .todo-content p{ display: inline;}
 li .todo-content .text form div{ display: none;}
 
-#project-todos li .todo-content span.flash.error, div.new-todo span.flash.error {
+.project-todos-container li .todo-content span.flash.error, div.new-todo span.flash.error {
     background: transparent url(/images/false.png) no-repeat scroll 0px -2px;
     color: #ff0000;
     font-size: 11px;
