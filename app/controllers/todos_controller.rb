@@ -127,15 +127,8 @@ class TodosController < ApplicationController
     #@todos = Todo.for_project(@project.id)
     @todos = parent_object.todos
 
-require 'logger'
-log = Logger.new('log/dump.log')
-log.debug('todos:' + @todos.inspect)
-log.debug('params: ' + params.inspect)
-
 	if params.has_key?("todo")
 		arr_todo_params = params["todo"]
-log.debug("arr todo params: " + arr_todo_params.inspect)
-log.debug("params todo: " + params["todo"].inspect)
 
 		arr_todo_params.keys.sort_by {|key| key.to_i}.map {|key| arr_todo_params[key]}.each_with_index do |todo_param, index|
 			# ignore the first index
@@ -143,7 +136,6 @@ log.debug("params todo: " + params["todo"].inspect)
 				next
 			end
 
-log.debug("todo param: " + todo_param.inspect)
 			@todos.select {|todo_obj| todo_obj.id == todo_param["item_id"].to_i}.each do |todo_obj|
 				todo_obj.update_attributes(
 					:parent => (["none", "null"].include? todo_param["parent_id"]) ? nil : Todo.find(todo_param["parent_id"].to_i),
@@ -151,9 +143,6 @@ log.debug("todo param: " + todo_param.inspect)
 				)
 			end
 		end
-
-log.debug("arr todo params final: " + arr_todo_params.inspect)
-log.debug("params todo final: " + params["todo"].inspect)
 
 		#todo_params = params["todo"]
 
@@ -169,9 +158,9 @@ log.debug("params todo final: " + params["todo"].inspect)
 
 	end
 
-    params.keys.select{|k| k.include? UL_ID }.each do |key|
-      Todo.sort_todos(@todos,params[key])
-    end
+   # params.keys.select{|k| k.include? UL_ID }.each do |key|
+   #   Todo.sort_todos(@todos,params[key])
+   # end
 
     render :nothing => true
     #render :action => "sort.rjs"

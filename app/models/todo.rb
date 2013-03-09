@@ -1,4 +1,3 @@
-
 class Todo < ActiveRecord::Base
 
         ##junk for trying to patch redmine classes - dosent work in dev
@@ -31,7 +30,7 @@ class Todo < ActiveRecord::Base
   #need an explicit association to project, because the acts_as_activity_provider needs it. I think?
   belongs_to :project, :foreign_key => 'todoable_id', :conditions => ['todoable_type = ?', Project.to_s]
 
-  scope :roots, where(:parent_id => nil)
+#  scope :roots, where(:parent_id => nil)
   scope :personal_todos, where(:todoable_type => User.to_s)
   scope :project_todos, where(:todoable_type => Project.to_s)
   scope :for_project, lambda { |project_id|
@@ -42,25 +41,36 @@ class Todo < ActiveRecord::Base
   }
 
   acts_as_event :title => Proc.new {|o|
-    "#{l(:label_todo)} ##{o.id}
-                (#{(o.done)? l(:todo_status_done) : ((o.updated_at == o.created_at)? l(:todo_status_new) : l(:todo_status_updated))}): #{o.text}"},
-                :description => Proc.new{|o|
-                                  items = []
-                                  items << "#{l(:todo_assigned_label)} #{o.assigned_to}"
-                                  items << ((r = o.refers_to) ? "#{l(:field_issue_to)}: #{r.tracker} ##{o.refers_to.id} (#{o.refers_to.status}): #{o.refers_to.subject}" : "")
-                                  items.join("\n")
-                                },
-                :url => Proc.new {|o| {:controller => "projects/#{o.todoable.identifier}/todos", :action => 'show', :id => o}},
-                :type => Proc.new {|o| 'todo'}
+					"#{l(:label_todo)} ##{o.id}
+					(#{(o.done)? l(:todo_status_done) : ((o.updated_at == o.created_at)? l(:todo_status_new) : l(:todo_status_updated))}): #{o.text}"
+				},
+              :description => Proc.new{|o|
+									items = []
+									items << "#{l(:todo_assigned_label)} #{o.assigned_to}"
+									items << ((r = o.refers_to) ? "#{l(:field_issue_to)}: #{r.tracker} ##{o.refers_to.id} (#{o.refers_to.status}): #{o.refers_to.subject}" : "")
+									items.join("\n")
+								},
+                :url => Proc.new {|o| {:controller => "todos", :action => "show", :project_id => o.todoable.identifier, :id => o}},
+                :type => Proc.new {|o| 'todo'.underscore.pluralize }
 
-  acts_as_activity_provider :timestamp => "#{table_name}.updated_at",
-                            :find_options => {:include => [ :project, :author, :refers_to]},
-                            :author_key => :author_id
+ acts_as_activity_provider :timestamp => "#{table_name}.due",
+                           :find_options => {:include => [ :project, :author, :refers_to]},
+							:permission => :view_todos,
+                            :author_key => :author_id,
+                            :type => 'todos'
 
   validates_presence_of  :author
   validates_length_of :text, :within => 1..255
 
-  attr_accessor :created_on, :updated_at
+	attr_accessor :created_on, :updated_at
+
+	def created_on
+		read_attribute(:created_at)
+	end
+
+	def updated_at
+		read_attribute(:updated_at)
+	end
 
   #for some reason, running under Passenger in production, changing all the todo tree&order
   #positions doesnt work. For some reason, rails doesnt write the parent_id of some records
@@ -72,7 +82,7 @@ class Todo < ActiveRecord::Base
   def set_done(val, cascade_to_children = true)
     self.done = val
 
-    #3debugger
+    #debugger
 
     self.children.each{|c| c.set_done val} if cascade_to_children
 
@@ -126,7 +136,7 @@ class Todo < ActiveRecord::Base
   def self::sort_todos(valid_todos, todos_position_tree = {}) #element_identifier = "todo-children-ul_", params = {})
 
 require 'logger'
-log = Logger.new('dump.log')
+log = Logger.new('log/dump.log')
 log.debug("sort_todos()")
 log.debug(" - valid todos")
 log.debug(valid_todos)

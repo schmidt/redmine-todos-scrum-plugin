@@ -87,7 +87,7 @@ li .todo-content .text form div{ display: none;}
     padding-left: 20px;
 }
 
-dt.todo {
+dt.todos {
     background-image:url(../images/todo.png);
 }
 

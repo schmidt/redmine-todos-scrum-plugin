@@ -5,20 +5,20 @@ This is a fork for Redmine 2.2.0
 You can get the original from https://github.com/dalyons/redmine-todos-scrum-plugin
 
 = Description
-A nested, easy to use project based todos plugin for Redmine. Allows easy creation and management of infinitely nestable todo lists on a per project basis, that can be organised into sprints(or releases). 
+A nested, easy to use project based todos plugin for Redmine. Allows easy creation and management of infinitely nestable todo lists on a per project basis, that can be organised into sprints(or releases).
 Also provides global 'My Todos' for all projects. Todos can be allocated to uses, and tied to Redmine Issues.
 
-Currently has translations for Russian, Chinese, Spanish, Italian, French, German, Korean, Japanese, Polish, Brazilian Portugese and English, thanks to contributions from others. 
+Currently has translations for Russian, Chinese, Spanish, Italian, French, German, Korean, Japanese, Polish, Brazilian Portugese and English, thanks to contributions from others.
 
-Thanks to edavis for it's original work
+Thanks to dalyons for his original work
 
 = Requirements
 * Redmine 2.2.0
 
-= Installation 
-* Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
+= Installation
+* Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
 * Cd to your redmine plugins/ dir
-* Git-clone the plugin from this repo into a folder in there (git clone git://github.com/shield/redmine-todos-scrum-plugin.git redmine_todos_plugin)
+* Git-clone the plugin from this repo into a folder in there (git clone git://github.com/hshield/redmine-todos-scrum-plugin.git redmine_todos_plugin)
 * Run +bundle install+ to install the required gems
 * Run the plugin migrations +rake redmine:plugins:migrate+
 * Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
@@ -30,5 +30,10 @@ NOTE: the plugin directory *has* to be "redmine_todos_plugin", because Engines l
 
 = Releases
 
+== version 1.1
+* Bug fix: Error when viewing the Activities
+* Bug fix: Show to do icon in the Activities
+
 == version 1.0
 * Make the plugins work for Redmine version 2.2.0
+
