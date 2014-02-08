@@ -138,7 +138,7 @@ class TodosController < ApplicationController
 
 			@todos.select {|todo_obj| todo_obj.id == todo_param["item_id"].to_i}.each do |todo_obj|
 				todo_obj.update_attributes(
-					:parent => (["none", "null"].include? todo_param["parent_id"]) ? nil : Todo.find(todo_param["parent_id"].to_i),
+					:parent => (["none", "null", ""].include? todo_param["parent_id"]) ? nil : Todo.find(todo_param["parent_id"].to_i),
 					:position => index
 				)
 			end
